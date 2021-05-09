@@ -75,10 +75,10 @@ class NginxMonitorTask implements AMonitorTaskRunnable {
     private void populateMetrics(Map<String, String> requestMap, List<Metric> metricList) throws IOException, TaskExecutionException {
         try {
             String url = UrlBuilder.builder(requestMap).build();
-            if (server.get("nginx_plus").equals("false")) {
+            if (server.get("nginx_type").equals("0")) {
                 logger.debug("nginx_plus is false");
                 metricList.addAll(populatePlainTextMetrics(url));
-            } else {
+            } else if(server.get("nginx_type").equals("1")) {
                 logger.debug("nginx_plus is true");
                 Stat[] stats = ((Stat.Stats) configuration.getMetricsXml()).getStats();
                 url = url + ((Stat.Stats) configuration.getMetricsXml()).getUrl() + "/";
@@ -100,6 +100,16 @@ class NginxMonitorTask implements AMonitorTaskRunnable {
                         }
                     }
                 }
+                phaser.arriveAndAwaitAdvance();
+            } else if(server.get("nginx_type").equals("2")) {
+                logger.debug("nginx_vts is true");
+                Stat stat = getVtsStats(((Stat.Stats) configuration.getMetricsXml()).getStats());
+                url = url + ((Stat.Stats) configuration.getMetricsXml()).getUrl() + "/";
+                Phaser phaser = new Phaser();
+                phaser.register();
+                VtsJSONResponseCollector vtsJSONResponseCollector = new VtsJSONResponseCollector(stat, configuration, metricWriteHelper, metricPrefix, url, heartBeat, phaser);
+                configuration.getContext().getExecutorService().execute("MetricCollector", vtsJSONResponseCollector);
+                logger.debug("Registering MetricCollectorTask for " + server.get("displayName") + "for stats " + stat.getSubUrl());
                 phaser.arriveAndAwaitAdvance();
             }
         } catch (Exception e) {
@@ -137,6 +147,14 @@ class NginxMonitorTask implements AMonitorTaskRunnable {
             }
             return metricsResultList;
         }
+    }
+
+    private Stat getVtsStats(Stat[] stats) {
+        for (Stat stat : stats) {
+            if (stat.getName().equals("vts"))
+                return stat;
+        }
+        return null;
     }
 
     private MetricConfig[] getPlainTestConfigs(Stat[] stats) {

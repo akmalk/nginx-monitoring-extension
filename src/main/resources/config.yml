@@ -13,7 +13,9 @@ servers:
     username: ""
     password: ""
     encryptedPassword:
-    nginx_plus: "false"  # true for nginx plus else false
+    nginx_type: "2"  # 0 - Nginx stub_module
+                     # 1 - Nginx plus
+                     # 2 - Nginx vts module
 
 encryptionKey: ""
 

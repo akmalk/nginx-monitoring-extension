@@ -35,11 +35,17 @@ public class MetricConfig {
     private String delta;
     @XmlAttribute
     private BigDecimal multiplier;
+    @XmlAttribute
+    private Boolean calculatePerMin;
     @XmlElement(name = "convert")
     private MetricConverter[] convert;
 
     public String getAttr() {
         return attr;
+    }
+
+    public String getPerMinAttr() {
+        return attr + "PerMin";
     }
 
     public void setAttr(String attr) {
@@ -48,6 +54,10 @@ public class MetricConfig {
 
     public String getAlias() {
         return alias;
+    }
+
+    public String getPerMinAlias() {
+        return alias + " per Min";
     }
 
     public void setAlias(String alias) {
@@ -85,6 +95,12 @@ public class MetricConfig {
     public BigDecimal getMultiplier(){return multiplier;}
 
     public void setMultiplier(BigDecimal multiplier) { this.multiplier = multiplier; }
+
+    public Boolean getCalculatePerMin() { return calculatePerMin; }
+
+    public void setCalculatePerMin(Boolean calculatePerMin) {
+        this.calculatePerMin = calculatePerMin;
+    }
 
     public void setConvert(MetricConverter[] convert) { this.convert = convert; }
 
