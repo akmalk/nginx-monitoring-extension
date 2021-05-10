@@ -150,5 +150,7 @@ Set delta = true for metric to report per-min data
         <metric attr="revalidated" alias="Revalidated" aggregationType = "AVERAGE" timeRollUpType = "AVERAGE" clusterRollUpType = "COLLECTIVE"/>
         <metric attr="hit" alias="Hit" aggregationType = "AVERAGE" timeRollUpType = "AVERAGE" clusterRollUpType = "COLLECTIVE"/>
         <metric attr="scarce" alias="Scarce" aggregationType = "AVERAGE" timeRollUpType = "AVERAGE" clusterRollUpType = "COLLECTIVE"/>
+        <metric attr="responseMsec" alias="Avg Response Time" aggregationType = "AVERAGE" timeRollUpType = "AVERAGE" clusterRollUpType = "COLLECTIVE"/>
+        <metric attr="requestMsec" alias="Avg Request Processing Time" aggregationType = "AVERAGE" timeRollUpType = "AVERAGE" clusterRollUpType = "COLLECTIVE"/>
     </stat>
 </stats>
