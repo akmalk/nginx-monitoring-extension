@@ -71,9 +71,9 @@ Configure the extension by editing the config.yml file in `<MACHINE_AGENT_HOME>/
 		    username: ""
 		    password: ""
 		    encryptedPassword:
-		    nginx_type: "2"  # 0 - Nginx stub_module
-		                     # 1 - Nginx plus
-				     # 2 - Nginx vts module
+                    nginx_type: "2"  # 0 - Nginx stub_module
+                                     # 1 - Nginx plus
+                                     # 2 - Nginx vts module
 
 		encryptionKey: ""
 
