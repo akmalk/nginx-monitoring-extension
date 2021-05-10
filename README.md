@@ -11,7 +11,7 @@ The extension needs to be able to connect to the Nginx in order to collect and s
 
 ## Installation
 
-**Note**: For the following steps to work, nginx should be running with <a href="http://nginx.org/en/docs/http/ngx_http_stub_status_module.html">&quot;ngx_http_stub_status_module&quot;</a> or <a href="http://nginx.org/en/docs/http/ngx_http_api_module.html">&quot;ngx_http_api_module&quot;</a> enabled. Please make sure you have required changes in the nginx.conf.
+**Note**: For the following steps to work, nginx should be running with <a href="http://nginx.org/en/docs/http/ngx_http_stub_status_module.html">&quot;ngx_http_stub_status_module&quot;</a> or <a href="http://nginx.org/en/docs/http/ngx_http_api_module.html">&quot;ngx_http_api_module&quot;</a> or <a href="https://github.com/vozlt/nginx-module-vts">&quot;nginx-module-vts&quot;</a>enabled. Please make sure you have required changes in the nginx.conf.
 
 
 1. Download and unzip the nginx-monitoring-extension-2.0.0.zip to the "<MachineAgent_Dir>/monitors" directory.
@@ -71,7 +71,9 @@ Configure the extension by editing the config.yml file in `<MACHINE_AGENT_HOME>/
 		    username: ""
 		    password: ""
 		    encryptedPassword:
-		    nginx_plus: "false"  # true for nginx plus else false
+		    nginx_type: "2"  # 0 - Nginx stub_module
+		                     # 1 - Nginx plus
+				     # 2 - Nginx vts module
 
 		encryptionKey: ""
 
@@ -86,11 +88,15 @@ Configure the extension by editing the config.yml file in `<MACHINE_AGENT_HOME>/
       ```
   3. If you want to monitor [nginx plus](https://www.nginx.com/products/nginx/) then put nginx_plus as true and make sure [ngx_http_api_module](http://nginx.org/en/docs/http/ngx_http_api_module.html) is configured.
         ```
-             nginx_plus: "true"  # true for nginx plus else false
+             nginx_type: "1"  # 1 for nginx plus else 0
         ```
        **NOTE:** When you want to monitor Nginx Plus, then the uri should not have the nginx_status. uri should be the Hostname/IP as below.
         ```
              uri: "http://demo.nginx.com/"
+        ```
+  3. If you want to monitor nginx using <a href="https://github.com/vozlt/nginx-module-vts">&quot;nginx-module-vts&quot;</a> you will have to make sure your nginx is built with this module and it's properly configured.
+        ```
+             nginx_type: "2"  # 2 nginx-module-vts
         ```
   4. Configure the numberOfThreads.
      For example,
