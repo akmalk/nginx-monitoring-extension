@@ -96,12 +96,6 @@ public class MetricConfig {
 
     public void setMultiplier(BigDecimal multiplier) { this.multiplier = multiplier; }
 
-    public Boolean getCalculatePerMin() { return calculatePerMin; }
-
-    public void setCalculatePerMin(Boolean calculatePerMin) {
-        this.calculatePerMin = calculatePerMin;
-    }
-
     public void setConvert(MetricConverter[] convert) { this.convert = convert; }
 
     public MetricConverter[] getMetricConverter(){ return convert; }

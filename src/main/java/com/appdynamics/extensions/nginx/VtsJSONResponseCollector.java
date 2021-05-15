@@ -136,12 +136,12 @@ public class VtsJSONResponseCollector implements Runnable {
             for (int i = 0; i < serverGroups.length(); i++) {
                 JSONObject server = serverGroups.getJSONObject(i);
                 metrics.addAll(collectObjectMetrics(server,
-                        "Upstreams|" + upstreamZoneName + METRIC_SEPARATOR +
+                        "Upstreams|" + upstreamZoneName.replace(":", "") + METRIC_SEPARATOR +
                                 server.getString("server").replace(":", "-"),
                         metricPrefix, metricConfig));
                 JSONObject responses = server.getJSONObject("responses");
                 metrics.addAll(collectObjectMetrics(responses,
-                        "Upstreams|" + upstreamZoneName + METRIC_SEPARATOR +
+                        "Upstreams|" + upstreamZoneName.replace(":", "") + METRIC_SEPARATOR +
                                 server.getString("server").replace(":", "-") +
                                 METRIC_SEPARATOR + "Responses",
                         metricPrefix, metricConfig));
@@ -159,19 +159,6 @@ public class VtsJSONResponseCollector implements Runnable {
                     metricPrefix + configStr + METRIC_SEPARATOR + config.getAlias(),
                     propertiesMap);
             metrics.add(metric);
-
-            if(Boolean.TRUE.equals(config.getCalculatePerMin())) {
-                BigDecimal rpmValue = rpmCalculator
-                        .getPerMinuteValue(metricPrefix + configStr + METRIC_SEPARATOR + config.getPerMinAlias(),
-                                BigDecimal.valueOf(jsonObject.getLong(config.getAttr())));
-                if(rpmValue != null) {
-                    Metric rpm = new Metric(config.getPerMinAttr(),
-                            rpmValue.toString(),
-                            metricPrefix + configStr + METRIC_SEPARATOR + config.getPerMinAlias(),
-                            propertiesMap);
-                    metrics.add(rpm);
-                }
-            }
         }
         return metrics;
     }
